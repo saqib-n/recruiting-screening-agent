@@ -1,0 +1,13 @@
+Anna Petrova
+Data Analyst
+
+Experience:
+Data Analyst, Retail Insights Group (2021 - Present, 4 years)
+- Built reporting dashboards and SQL queries against a data warehouse
+- Wrote Python scripts (pandas, matplotlib) for ad hoc analysis, not production services
+- No experience building or maintaining APIs
+- No experience with backend service architecture or deployment
+
+Skills: SQL, Python (pandas, data analysis focus), Excel, Tableau
+
+Education: BS in Statistics, State University

@@ -1,0 +1,15 @@
+James Okafor
+Full Stack Developer
+
+Experience:
+Full Stack Developer, Brightleaf Media (2023 - Present, 2.5 years)
+- Primarily worked on React frontend, some backend work building internal Python scripts and small Flask endpoints
+- Contributed to a handful of REST API endpoints for the internal admin dashboard, mostly read-only
+- No direct experience with production database schema design
+
+Support Engineer, HelpDeskNow (2021 - 2023, 2 years)
+- Customer-facing technical support, some scripting in Python to automate ticket triage
+
+Skills: JavaScript, React, Python (basic to intermediate), HTML/CSS, some SQL
+
+Education: BA in Communications, State University

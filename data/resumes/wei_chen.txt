@@ -1,0 +1,16 @@
+Wei Chen
+Senior Backend Engineer / Engineering Lead
+
+Experience:
+Engineering Lead, Vantage Systems (2019 - Present, 6 years)
+- Led a team of 5 backend engineers building Python/Django services on GCP
+- Designed the company's core API architecture, REST and later GraphQL
+- Owned production Postgres database design and query performance across the platform
+- Regularly mentored engineers, ran the team's technical interviews
+
+Backend Engineer, Prior Startup (2016 - 2019, 3 years)
+- Built REST APIs in Python (Django), worked with Postgres and Redis
+
+Skills: Python, Django, FastAPI, PostgreSQL, GCP, AWS, system design, team leadership
+
+Education: BS in Computer Science, State Tech University

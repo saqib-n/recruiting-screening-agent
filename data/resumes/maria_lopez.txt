@@ -1,0 +1,17 @@
+Maria Lopez
+Backend Engineer
+
+Experience:
+Backend Engineer, Fintrack Software (2022 - Present, 4 years)
+- Built and maintained REST APIs in Python (Flask, then migrated to FastAPI) serving a Postgres-backed transaction system
+- Owned the migration of a legacy billing service to async endpoints, cut average response time by 40%
+- Deployed and monitored services on AWS (ECS, RDS, CloudWatch)
+- Reviewed pull requests for two newer engineers on the team, wrote the team's onboarding guide
+
+Junior Developer, Local Retail Co (2020 - 2022, 2 years)
+- Maintained internal inventory tools in Python
+- First exposure to production databases and API design
+
+Skills: Python, FastAPI, Flask, PostgreSQL, AWS, Docker, Git
+
+Education: Associate's degree, Community College of Denver (Computer Science)

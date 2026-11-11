@@ -1,0 +1,20 @@
+Job Title: Backend Software Engineer (Mid-Level)
+
+We're looking for a mid-level backend engineer to join our small product team.
+
+Must have:
+- 3+ years professional experience building backend services
+- Strong Python experience, comfortable working in a production codebase
+- Experience with REST APIs and relational databases (Postgres or similar)
+- Comfortable working independently with minimal oversight
+
+Nice to have:
+- Experience with cloud infrastructure (AWS, GCP, or Azure)
+- Experience with a modern async framework (FastAPI, Django, etc.)
+- Any experience mentoring or reviewing other engineers' code
+
+Not required:
+- A specific degree or university
+- Prior experience at a "big name" company
+
+We care about what you can actually build and how you communicate about tradeoffs, not where you went to school or who you've worked for.

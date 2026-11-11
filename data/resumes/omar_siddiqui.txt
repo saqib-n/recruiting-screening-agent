@@ -1,0 +1,17 @@
+Omar Siddiqui
+Junior Software Developer
+
+Experience:
+Junior Developer, CodeForge Bootcamp Placement (2025 - Present, 6 months)
+- Built small internal tools in Python under supervision
+- First professional role after completing a coding bootcamp
+
+Personal projects:
+- Built a REST API in FastAPI for a personal budgeting app, backed by SQLite
+- Contributed a few small fixes to an open source Python library
+
+Previous career: 5 years as a high school teacher before transitioning to software
+
+Skills: Python, FastAPI (personal projects), basic SQL, Git
+
+Education: Software Engineering Bootcamp Certificate (2025), BA in Education, State University (2018)
