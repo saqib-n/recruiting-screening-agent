@@ -115,77 +115,19 @@ python screen_candidates.py
 
 <pre>
 recruiting-screening-agent/
-  .env.example                                           # copy to .env and add your key
-  case_study.md                                          # longer write-up of the design
+  .env.example             # copy to .env and add your key
+  case_study.md            # longer write-up of the design
   README.md
-  requirements.txt                                       # dependencies
-  screen_candidates.py                                   # screens every resume and prints the shortlist
-  .git/
-    COMMIT_EDITMSG
-    config
-    description
-    HEAD
-    hooks/applypatch-msg.sample
-    hooks/commit-msg.sample
-    hooks/fsmonitor-watchman.sample
-    hooks/post-update.sample
-    hooks/pre-applypatch.sample
-    hooks/pre-commit.sample
-    hooks/pre-merge-commit.sample
-    hooks/pre-push.sample
-    hooks/pre-rebase.sample
-    hooks/pre-receive.sample
-    hooks/prepare-commit-msg.sample
-    hooks/push-to-checkout.sample
-    hooks/sendemail-validate.sample
-    hooks/update.sample
-    index
-    info/exclude
-    logs/HEAD
-    logs/refs/heads/main
-    logs/refs/remotes/origin/main
-    objects/08/6b6100f7918763f67a5ffd44f815202ec5cd1e
-    objects/0a/a3e919369540be96480bc2730bf75c4f9f9492
-    objects/0d/19a37d674a332b9dba9f34ec54f3144a81a21f
-    objects/13/df72d287e6b11db618a976c14cb8ac433cc7eb
-    objects/2a/eaa4af67a297cdb164a1f4dd061ab85154d5e7
-    objects/48/f562655acea78d009f619bbd29769385880946
-    objects/4b/8e0366d16c28c64a9c00f9058c36f6064c2e87
-    objects/5f/03cc7fc374a543e01cee41ba306937fd05940c
-    objects/6f/9f46f10d45edafeb3701b3bbddf77e1922e912
-    objects/71/efd8b031d1f9bc244e96ef48c4310f55079258
-    objects/78/613bb912fd5177040bc593fd1f8932de151010
-    objects/78/998da0758f803a8b7d9b492206632524003f81
-    objects/7a/3a4f0ab20b8170a7b714479283340f5fe09e10
-    objects/7f/d1df9761c3294fcb5b79b84e2c1581211b58fe
-    objects/80/b83ba80f29149a8662f8b7cef0d0516c6f1a8c
-    objects/8a/48dd072be3bf8c820ee6384db3167eafb4fb1b
-    objects/8e/8b702ac01cf23fd7fcd9ca64e2a10ac89ebc6b
-    objects/a2/2992dd5a497d81f2c4d52d29bebebfab28c81d
-    objects/a2/667477f906e25e4d46862b73a0cf1d10163a78
-    objects/a4/93b49fd5a6f847273ae7d9c847f4f07ae67f4b
-    objects/ae/5e34ffc1c5558f645ff8af4f9194400bcc81dd
-    objects/ae/af811bb6f234c59581c34ea74add0b0a69691b
-    objects/bb/1d0d20270c6b562a687dd6c5e21f3c4d7ba090
-    objects/c5/4aeb32cf364cf433dfb7c8ce58583bc231b3a2
-    objects/c5/97c23fa30e7a1e2dfac8278bb520f879e325c9
-    objects/cb/c138741f76c8142b81d1884b0ff9e85cf76ce6
-    objects/de/746f20e8d94bc4bca3a762ef31b38beac8dfce
-    objects/e5/6d0464232e3f00c54b6317bcda0a87126ef783
-    objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391
-    objects/fe/bef78fa2bbf9ca7578a856fb0958dce1d19148
-    refs/heads/main
-    refs/remotes/origin/main
+  requirements.txt         # dependencies
+  screen_candidates.py     # screens every resume and prints the shortlist
   agent/
-    llm.py                                               # picks the model from LLM_MODEL
-    screening.py                                         # the scoring prompt and bias rules
+    llm.py                 # picks the model from LLM_MODEL
+    screening.py           # the scoring prompt and bias rules
   data/
-    job_description.txt                                  # the role being hired for
-    resumes/                                             # five sample resumes
-  demo/
-    demo.gif
-    demo.mp4
-  tests/                                                 # pytest suite, runs without any API key
+    job_description.txt    # the role being hired for
+    resumes/               # five sample resumes
+  demo/                    # recording of a live run (GIF and MP4)
+  tests/                   # pytest suite, runs without any API key
 </pre>
 
 <h2>Built with</h2>
