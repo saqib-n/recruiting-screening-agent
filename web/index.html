@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resume Screening Agent</title>
+<style>
+  :root {
+    --bg: #f6f5fa; --surface: #fff; --line: #e6e3ef; --line-2: #f0eef5;
+    --text: #1f1b2e; --muted: #6b6680; --faint: #a19cb3;
+    --brand: #6741d9; --brand-soft: #f1ecff;
+    --good: #1f8a4c; --good-bg: #e5f5ec; --mid: #b26a00; --mid-bg: #fff4dc; --low: #c92a2a; --low-bg: #fdecea;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { background: var(--bg); color: var(--text); font: 14px/1.45 "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif; display: flex; flex-direction: column; overflow: hidden; }
+  button { font: inherit; cursor: pointer; }
+
+  .topbar { height: 58px; flex: none; display: flex; align-items: center; gap: 14px; padding: 0 22px; background: var(--surface); border-bottom: 1px solid var(--line); }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 650; font-size: 16px; }
+  .logo .mark { width: 30px; height: 30px; border-radius: 9px; background: linear-gradient(135deg, #845ef7, #6741d9); display: grid; place-items: center; }
+  .crumbs { color: var(--muted); font-size: 13.5px; margin-left: 10px; }
+  .crumbs b { color: var(--text); font-weight: 600; }
+  .spacer { flex: 1; }
+  .pill { font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; display: inline-flex; gap: 6px; align-items: center; white-space: nowrap; }
+  .pill i { width: 7px; height: 7px; border-radius: 50%; background: var(--good); }
+  .btn { border: 1px solid var(--line); background: var(--surface); color: var(--text); border-radius: 9px; padding: 8px 14px; font-weight: 550; white-space: nowrap; }
+  .btn.primary { background: var(--brand); border-color: var(--brand); color: #fff; display: inline-flex; align-items: center; gap: 8px; }
+  .btn.primary:hover { background: #5b36c9; }
+  .btn:disabled { opacity: .55; cursor: default; }
+  .btn.small { padding: 4px 10px; font-size: 12.5px; }
+
+  .main { flex: 1; min-height: 0; display: grid; grid-template-columns: 360px 1fr; gap: 18px; padding: 18px 22px; }
+  .job { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow-y: auto; padding: 18px 18px 20px; }
+  .job .tag { display: inline-block; font-size: 11.5px; font-weight: 650; color: var(--brand); background: var(--brand-soft); border-radius: 6px; padding: 2px 8px; }
+  .job h2 { margin: 10px 0 2px; font-size: 18px; letter-spacing: -.01em; }
+  .job .sub { color: var(--muted); font-size: 13px; }
+  .job h4 { margin: 16px 0 6px; font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+  .job ul { margin: 0; padding-left: 18px; font-size: 13.5px; }
+  .job li { margin: 3px 0; }
+  .fair { margin-top: 14px; border-radius: 12px; background: #f7f5ff; border: 1px solid #e3dcfb; padding: 12px 14px; font-size: 13px; }
+  .fair b { display: flex; gap: 6px; align-items: center; color: var(--brand); margin-bottom: 6px; }
+  .fair .ig { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+  .fair .ig span { font-size: 11.5px; background: #fff; border: 1px solid #e3dcfb; border-radius: 6px; padding: 1px 7px; color: var(--muted); text-decoration: line-through; }
+
+  .list-wrap { display: flex; flex-direction: column; min-height: 0; }
+  .list-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; }
+  .list-head h1 { margin: 0; font-size: 19px; letter-spacing: -.01em; }
+  .list-head span { color: var(--muted); font-size: 13px; }
+  .list-head .spacer { flex: 1; }
+  .list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 2px 4px 12px 2px; }
+
+  .cand { background: var(--surface); border: 1px solid var(--line); border-radius: 13px; padding: 13px 16px; display: grid; grid-template-columns: 34px 42px 1fr 210px; gap: 0 14px; align-items: start; position: relative; }
+  .cand.working { border-color: #cbbcf7; box-shadow: 0 0 0 3px #efe9ff; }
+  .rank { font-size: 20px; font-weight: 700; color: var(--faint); padding-top: 6px; text-align: center; }
+  .cand.top .rank { color: var(--brand); }
+  .av { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 650; }
+  .name b { font-size: 15px; display: block; }
+  .name span { color: var(--muted); font-size: 12.5px; }
+  .score { text-align: right; }
+  .score .num { font-size: 22px; font-weight: 700; letter-spacing: -.02em; }
+  .score .num small { font-size: 12px; color: var(--faint); font-weight: 500; }
+  .bar { height: 7px; background: #f0eef5; border-radius: 999px; overflow: hidden; margin-top: 5px; }
+  .bar div { height: 100%; width: 0; border-radius: 999px; transition: width .9s ease; }
+  .verdict { display: inline-block; font-size: 11.5px; font-weight: 650; border-radius: 6px; padding: 1px 8px; margin-top: 6px; }
+  .verdict.good { color: var(--good); background: var(--good-bg); } .verdict.mid { color: var(--mid); background: var(--mid-bg); } .verdict.low { color: var(--low); background: var(--low-bg); }
+  .status { color: var(--faint); font-size: 12.5px; text-align: right; padding-top: 10px; }
+  .status.work { color: var(--brand); display: flex; gap: 7px; justify-content: flex-end; align-items: center; font-weight: 600; }
+  .spin { width: 12px; height: 12px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: rot .7s linear infinite; }
+  @keyframes rot { to { transform: rotate(360deg); } }
+  .detail { grid-column: 3 / 5; margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 18px; animation: in .35s ease; }
+  @keyframes in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+  .detail h5 { margin: 0 0 3px; font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+  .detail ul { margin: 0; padding: 0; list-style: none; font-size: 13px; }
+  .detail li { display: flex; gap: 7px; margin: 3px 0; }
+  .detail li svg { flex: none; margin-top: 3px; }
+  .detail .sum { grid-column: 1 / 3; font-size: 13px; color: #47425a; border-top: 1px solid var(--line-2); padding-top: 8px; margin-top: 4px; display: flex; gap: 12px; align-items: flex-start; }
+  .detail .sum .secs { margin-left: auto; color: var(--faint); font-size: 12px; white-space: nowrap; }
+  .resume { grid-column: 3 / 5; margin-top: 10px; white-space: pre-wrap; font-size: 12.5px; background: #faf9fc; border: 1px solid var(--line-2); border-radius: 9px; padding: 10px 12px; max-height: 240px; overflow-y: auto; font-family: "Cascadia Code", Consolas, Menlo, monospace; }
+  .err { grid-column: 3 / 5; color: var(--low); font-size: 12.5px; margin-top: 6px; }
+
+  .toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(20px); background: #1f1b2e; color: #fff; padding: 11px 18px; border-radius: 10px; font-size: 13.5px; opacity: 0; transition: all .3s; pointer-events: none; box-shadow: 0 10px 30px rgba(0,0,0,.2); max-width: 90vw; }
+  .toast.show { opacity: 1; transform: translateX(-50%); }
+  .modal-bg { position: fixed; inset: 0; background: rgba(31,27,46,.4); display: none; align-items: center; justify-content: center; padding: 16px; z-index: 5; }
+  .modal-bg.open { display: flex; }
+  .modal { width: 600px; max-width: 100%; background: var(--surface); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.25); overflow: hidden; }
+  .modal h3 { margin: 0; padding: 14px 18px; border-bottom: 1px solid var(--line); font-size: 15px; }
+  .modal label { display: block; padding: 10px 18px 0; font-size: 12px; color: var(--muted); }
+  .modal input, .modal textarea { width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; font: inherit; margin-top: 4px; color: var(--text); }
+  .modal textarea { height: 240px; resize: vertical; font-size: 13px; }
+  .modal .acts { display: flex; justify-content: flex-end; gap: 8px; padding: 16px 18px; }
+
+  @media (max-width: 980px) {
+    body { overflow: auto; }
+    .main { grid-template-columns: 1fr; padding: 14px 16px; }
+    .job { max-height: none; }
+    .cand { grid-template-columns: 28px 38px 1fr; }
+    .score, .status { grid-column: 3 / 4; text-align: left; justify-content: flex-start; margin-top: 6px; }
+    .detail, .resume, .err { grid-column: 1 / 4; grid-template-columns: 1fr; }
+    .detail .sum { grid-column: auto; }
+    .crumbs, .pill { display: none; }
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="logo"><div class="mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12 12a4 4 0 100-8 4 4 0 000 8zm0 2c-3.3 0-8 1.7-8 5v1h16v-1c0-3.3-4.7-5-8-5z"/></svg></div>Hiring</div>
+  <div class="crumbs">Jobs / <b>Backend Software Engineer</b></div>
+  <div class="spacer"></div>
+  <span class="pill"><i></i><span id="model">model</span></span>
+  <button class="btn" id="add" type="button">Paste a resume</button>
+  <button class="btn primary" id="run" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Screen candidates</button>
+</header>
+
+<div class="main">
+  <aside class="job" id="job"><span class="tag">Open role</span><h2>loading...</h2></aside>
+  <section class="list-wrap">
+    <div class="list-head"><h1>Shortlist</h1><span id="sub"></span><span class="spacer"></span></div>
+    <div class="list" id="list"></div>
+  </section>
+</div>
+
+<div class="modal-bg" id="modal">
+  <form class="modal" id="form">
+    <h3>Paste a resume to screen against this job</h3>
+    <label>Name for the file<input name="filename" maxlength="120" value="new_candidate.txt"></label>
+    <label>Resume text<textarea name="text" required minlength="20" maxlength="20000" placeholder="Paste the plain text of a resume here"></textarea></label>
+    <div class="acts"><button class="btn" type="button" id="cancel">Cancel</button><button class="btn primary" type="submit">Add and screen</button></div>
+  </form>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const COLORS = ["#6741d9", "#0c7c8c", "#c2255c", "#1971c2", "#2b8a3e", "#e8590c", "#862e9c", "#5c7cfa"];
+  let cands = [], running = false, openResume = null;
+  const CHECK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="#1f8a4c"><path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.4-1.4z"/></svg>';
+  const GAP = '<svg width="13" height="13" viewBox="0 0 24 24" fill="#b26a00"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2zm0-4h-2V7h2z"/></svg>';
+
+  function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function color(s) { let h = 0; for (const c of s) h = (h * 31 + c.charCodeAt(0)) >>> 0; return COLORS[h % COLORS.length]; }
+  function toast(msg, ms) { const t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("show"), ms || 3200); }
+  function nameOf(c) { return c.result ? c.result.candidate_name : (c.text.split("\n").find((l) => l.trim()) || c.filename).trim(); }
+  function titleOf(c) { const lines = c.text.split("\n").map((l) => l.trim()).filter(Boolean); return lines[1] && lines[1].length < 60 ? lines[1] : c.filename; }
+  function band(s) { return s >= 75 ? ["good", "Strong fit"] : s >= 50 ? ["mid", "Possible fit"] : ["low", "Weak fit"]; }
+
+  function renderJob(text) {
+    const box = $("job"); box.innerHTML = "";
+    box.appendChild(el("span", "tag", "Open role · job_description.txt"));
+    const lines = text.split("\n");
+    const title = (lines[0] || "").replace(/^Job Title:\s*/i, "");
+    box.appendChild(el("h2", null, title));
+    let ul = null, intro = [];
+    lines.slice(1).forEach((raw) => {
+      const l = raw.trim();
+      if (!l) return;
+      if (/:$/.test(l)) { box.appendChild(el("h4", null, l.slice(0, -1))); ul = el("ul"); box.appendChild(ul); return; }
+      if (l.startsWith("- ") && ul) { ul.appendChild(el("li", null, l.slice(2))); return; }
+      if (!ul) intro.push(l); else { ul = null; box.appendChild(el("p", "sub", l)); }
+    });
+    if (intro.length) box.querySelector("h2").after(el("div", "sub", intro.join(" ")));
+    const fair = el("div", "fair");
+    fair.innerHTML = '<b><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5z"/></svg>Fairness rules in the prompt</b>The agent scores only job-relevant evidence and is told to ignore:';
+    const ig = el("div", "ig"); ["Age", "Gender", "Name", "University", "Graduation year", "Employer prestige"].forEach((x) => ig.appendChild(el("span", null, x)));
+    fair.appendChild(ig);
+    const firstSection = box.querySelector("h4");
+    if (firstSection) box.insertBefore(fair, firstSection); else box.appendChild(fair);
+  }
+
+  function sorted() {
+    return [...cands].sort((a, b) => {
+      if (a.result && b.result) return b.result.score - a.result.score;
+      if (a.result) return -1; if (b.result) return 1;
+      return a.order - b.order;
+    });
+  }
+
+  function row(c, rank) {
+    const r = el("div", "cand" + (c.state === "working" ? " working" : "") + (c.result && rank === 1 ? " top" : ""));
+    r.dataset.id = c.filename;
+    r.appendChild(el("div", "rank", c.result ? "#" + rank : "–"));
+    const av = el("div", "av", nameOf(c).split(/\s+/).map((p) => p[0]).join("").slice(0, 2).toUpperCase()); av.style.background = color(c.filename); r.appendChild(av);
+    const nm = el("div", "name"); nm.append(el("b", null, nameOf(c)), el("span", null, titleOf(c) + " · " + c.filename + " · "));
+    const view = el("a", null, openResume === c.filename ? "hide resume" : "view resume"); view.href = "#"; view.style.color = "var(--brand)"; view.style.fontSize = "12.5px";
+    view.addEventListener("click", (e) => { e.preventDefault(); openResume = openResume === c.filename ? null : c.filename; render(); });
+    nm.querySelector("span").appendChild(view);
+    r.appendChild(nm);
+    if (c.result) {
+      const s = c.result.score, [cls, label] = band(s);
+      const sc = el("div", "score");
+      const num = el("div", "num"); num.append(String(s), el("small", null, " / 100"));
+      const bar = el("div", "bar"); const fill = el("div"); fill.style.background = cls === "good" ? "var(--good)" : cls === "mid" ? "#e8a200" : "var(--low)"; bar.appendChild(fill);
+      sc.append(num, bar, el("span", "verdict " + cls, label));
+      r.appendChild(sc);
+      if (c.animate) { requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.width = s + "%"; })); c.animate = false; } else fill.style.width = s + "%";
+      const d = el("div", "detail");
+      const st = el("div"); st.appendChild(el("h5", null, "Strengths")); const su = el("ul"); c.result.strengths.forEach((x) => { const li = el("li"); li.innerHTML = CHECK; li.append(x); su.appendChild(li); }); st.appendChild(su);
+      const gp = el("div"); gp.appendChild(el("h5", null, "Gaps")); const gu = el("ul"); c.result.gaps.forEach((x) => { const li = el("li"); li.innerHTML = GAP; li.append(x); gu.appendChild(li); }); gp.appendChild(gu);
+      const sum = el("div", "sum"); sum.append(el("span", null, c.result.reasoning), el("span", "secs", c.result.seconds + "s"));
+      d.append(st, gp, sum);
+      r.appendChild(d);
+    } else if (c.state === "working") {
+      const s = el("div", "status work"); s.append(el("span", "spin"), "Reading resume..."); r.appendChild(s);
+    } else if (c.state === "error") {
+      r.appendChild(el("div", "status", "Failed")); r.appendChild(el("div", "err", c.error));
+    } else r.appendChild(el("div", "status", "Not screened"));
+    if (openResume === c.filename) r.appendChild(el("div", "resume", c.text));
+    return r;
+  }
+
+  function render() {
+    const list = $("list");
+    const before = new Map([...list.children].map((n) => [n.dataset.id, n.getBoundingClientRect().top]));
+    list.innerHTML = "";
+    sorted().forEach((c, i) => list.appendChild(row(c, i + 1)));
+    // FLIP: slide rows from their old position to the new one when the ranking changes.
+    [...list.children].forEach((n) => {
+      const old = before.get(n.dataset.id);
+      if (old == null) return;
+      const dy = old - n.getBoundingClientRect().top;
+      if (Math.abs(dy) < 2) return;
+      n.style.transform = "translateY(" + dy + "px)"; n.style.transition = "none";
+      requestAnimationFrame(() => { n.style.transition = "transform .55s cubic-bezier(.2,.8,.2,1)"; n.style.transform = ""; });
+    });
+    const done = cands.filter((c) => c.result).length;
+    $("sub").textContent = done ? done + " of " + cands.length + " screened, ranked by fit" : cands.length + " applicants";
+  }
+
+  async function screenOne(c) {
+    c.state = "working"; render();
+    const node = document.querySelector('.cand[data-id="' + CSS.escape(c.filename) + '"]'); if (node) node.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    try {
+      const res = await fetch("/api/screen", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ filename: c.filename, text: c.text }) });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Request failed (" + res.status + ")");
+      c.result = data; c.state = "done"; c.animate = true;
+    } catch (err) { c.state = "error"; c.error = err.message; }
+    render();
+  }
+
+  function lock(v) { running = v; $("run").disabled = v; $("add").disabled = v; }
+
+  async function runAll() {
+    if (running) return;
+    const todo = cands.filter((c) => !c.result);
+    if (!todo.length) { toast("Every resume is already screened."); return; }
+    lock(true);
+    const t0 = performance.now();
+    for (const c of todo) { await screenOne(c); await new Promise((r) => setTimeout(r, 1100)); }
+    lock(false);
+    const top = sorted()[0];
+    toast(todo.length + " resumes screened in " + Math.round((performance.now() - t0) / 1000) + "s. Top match: " + (top.result ? top.result.candidate_name + " (" + top.result.score + "/100)" : "none"), 6000);
+    $("list").scrollTo({ top: 0, behavior: "smooth" });
+    document.body.dataset.finished = "1";
+  }
+
+  $("run").addEventListener("click", runAll);
+  $("add").addEventListener("click", () => $("modal").classList.add("open"));
+  $("cancel").addEventListener("click", () => $("modal").classList.remove("open"));
+  $("form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const f = e.target;
+    let name = f.filename.value.trim() || "pasted_resume.txt";
+    while (cands.some((c) => c.filename === name)) name = name.replace(/(\.txt)?$/, "_2.txt");
+    const c = { filename: name, text: f.text.value, order: -Date.now() };
+    cands.push(c); f.text.value = "";
+    $("modal").classList.remove("open");
+    lock(true); await screenOne(c); lock(false);
+  });
+
+  fetch("/api/info").then((r) => r.json()).then((d) => { $("model").textContent = d.model; }).catch(() => {});
+  fetch("/api/job").then((r) => r.json()).then((d) => renderJob(d.text)).catch(() => {});
+  fetch("/api/resumes").then((r) => r.json()).then((list) => { cands = list.map((r, i) => ({ ...r, order: i })); render(); }).catch(() => toast("Could not load the resumes."));
+})();
+</script>
+</body>
+</html>

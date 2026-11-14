@@ -27,9 +27,11 @@
 
 <h2>See it in action</h2>
 
-<p align="center"><img src="demo/demo.gif" alt="Terminal recording of Resume Screening Agent running on Google Gemini" width="100%"></p>
+<p align="center"><img src="demo/demo.gif" alt="Hiring board: the job post and fairness rules on the left, candidates scored and re-ranked live on the right" width="100%"></p>
 
-<p align="center"><sub>Recorded from a real run on Google Gemini (<code>gemini-3.5-flash-lite</code>) on 12 November 2026. Nothing is edited or scripted. Only the waiting time while the model thinks is shortened. <a href="demo/demo.mp4">Download the MP4</a>.</sub></p>
+<p align="center"><sub>Recorded in the built-in hiring board from a real run on Google Gemini (<code>gemini-3.5-flash-lite</code>) on 14 November 2026. Nothing is scripted. Only the time spent waiting for the model is fast-forwarded, and the real response times are shown on screen. <a href="demo/demo.mp4">Download the MP4</a>.</sub></p>
+
+<p>Run <code>python app.py</code> and it opens a hiring board with the job post and the fairness rules next to a shortlist that re-ranks itself as each resume is scored. It is the same agent code as the command line version, with a screen on top.</p>
 
 <h2>The problem</h2>
 
@@ -98,6 +100,7 @@ Ranked shortlist:
 pip install -r requirements.txt
 cp .env.example .env        # on Windows: copy .env.example .env
 # open .env and paste your API key
+python app.py               # opens the hiring board at http://localhost:8000
 python screen_candidates.py
 </pre>
 
@@ -120,14 +123,17 @@ recruiting-screening-agent/
   README.md
   requirements.txt         # dependencies
   screen_candidates.py     # screens every resume and prints the shortlist
+  app.py                 # browser hiring board, the same agent with a UI
   agent/
     llm.py                 # picks the model from LLM_MODEL
     screening.py           # the scoring prompt and bias rules
   data/
     job_description.txt    # the role being hired for
     resumes/               # five sample resumes
-  demo/                    # recording of a live run (GIF and MP4)
+  demo/                    # recording of a live run (GIF, MP4 and a screenshot)
   tests/                   # pytest suite, runs without any API key
+  web/
+    index.html          # the hiring board, one file, no build step
 </pre>
 
 <h2>Built with</h2>
@@ -141,7 +147,7 @@ pip install -r requirements-dev.txt
 pytest
 </pre>
 
-<p>Three tests cover loading the job description and resumes, the bias instruction staying in the prompt, and score clamping. None of the tests call a model or need an API key, so they run on GitHub Actions on every push. The badge at the top shows the latest result.</p>
+<p>Four tests cover loading the job description and resumes, the bias instruction staying in the prompt, and score clamping, plus the browser screen and its API. None of the tests call a model or need an API key, so they run on GitHub Actions on every push. The badge at the top shows the latest result.</p>
 
 <h2>Roadmap</h2>
 
